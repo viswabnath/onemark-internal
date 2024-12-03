@@ -1,0 +1,217 @@
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    background: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ccc;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.header img {
+    max-width: 150px;
+    margin-top: 35px;
+}
+
+.btn-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.table th,
+.table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.totals {
+    margin-top: 10px;
+}
+
+.totals p {
+    margin: 5px 0;
+}
+
+.line {
+    border-top: 1px solid #000;
+}
+
+.bank-details {
+    text-align: left;
+    margin: 20px 0px;
+}
+
+.bank-details p {
+    margin-bottom: 5px;
+    /* Adjust spacing between paragraphs */
+    font-size: 15px;
+    /* Adjust font size as needed */
+}
+
+.bank-details p strong {
+    font-weight: bold;
+}
+
+.signature-boxes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.signature-box {
+    width: 45%;
+    border: 1px solid #ddd;
+    padding: 40px;
+    text-align: center;
+}
+
+.company-details {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.company-details p {
+    margin-bottom: 5px;
+    /* Adjust spacing between paragraphs */
+    font-size: 12px;
+    /* Adjust font size as needed */
+}
+
+.company-details p:first-child {
+    /* For the first address paragraph */
+    font-weight: bold;
+    /* Make address bold */
+}
+
+.details {
+    margin-bottom: 20px;
+}
+
+.field-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.field {
+    width: 48%;
+}
+
+.field strong {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.field span,
+.field input {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.client-address {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    min-height: 50px;
+    /* Adjustable based on needs */
+}
+
+.note {
+    font-size: 10px;
+    margin: 5px 0px;
+}
+
+.warn {
+    font-size: 8px;
+    margin: 0px;
+}
+
+@media print {
+    .hide-in-pdf {
+        display: none !important;
+    }
+
+    #invoice-wrapper {
+        page-break-inside: avoid;
+    }
+
+    .page-break {
+        page-break-before: always;
+    }
+
+    .field span,
+    .field input {
+        display: none;
+    }
+
+}
+
+.pdf-export {
+    font-size: 12px !important;
+    /* Reduce font size */
+    line-height: 1.2 !important;
+    /* Adjust line spacing */
+    padding: 10px;
+    /* Add padding for better readability */
+}
+
+.pdf-export .field {
+    margin-bottom: 10px !important;
+    /* Reduce gaps */
+}
+
+.pdf-export .field span,
+.pdf-export .field input {
+    padding: 5px !important;
+    /* Adjust input padding */
+}
+
+.pdf-export .totals p {
+    margin: 3px 0 !important;
+    /* Reduce spacing between totals */
+}
+
+.top-right-button {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+input,
+span[contenteditable="true"] {
+    text-transform: uppercase;
+}
+
+[contenteditable="true"] {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #000;
+    white-space: pre-wrap;
+}

@@ -211,6 +211,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('total-cgst').textContent = (totalGST / 2).toFixed(2);
         document.getElementById('total-sgst').textContent = (totalGST / 2).toFixed(2);
         document.getElementById('grand-total').textContent = (totalExclTax + totalGST).toFixed(2);
+
+        const gtotal = document.getElementById('grand-total').textContent;
+        // Call the NumToWord function to display the total in words
+        NumToWord(gtotal, 'total-in-words');
     }
 
 
@@ -311,7 +315,86 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('tbody tr').forEach(row => {
         addRowListeners(row);
     });
-
-
-
 });
+
+// Function to Convert Numbers to Words
+function NumToWord(inputNumber, outputControl) {
+    var str = inputNumber.toString();
+    var splitNumber = str.split(".");
+    var wholePart = parseInt(splitNumber[0], 10); // Integer part
+    var decimalPart = splitNumber[1] || "00";    // Decimal part defaults to "00"
+
+    var once = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+    var twos = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+    var tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+    var suffixes = ['', 'Thousand', 'Lakh', 'Crore'];
+
+    function convertToWords(num) {
+        if (num === 0) return "Zero";
+
+        var words = [];
+        var digitGroups = [];
+        var suffixIndex = 0;
+
+        // Split the number into groups as per Indian numbering system
+        while (num > 0) {
+            if (suffixIndex === 1) {
+                // Group of 2 digits for Thousand
+                digitGroups.push(num % 100);
+                num = Math.floor(num / 100);
+            } else {
+                // Groups of 3 digits for higher denominations
+                digitGroups.push(num % 1000);
+                num = Math.floor(num / 1000);
+            }
+            suffixIndex++;
+        }
+
+        // Convert each group to words
+        for (var i = 0; i < digitGroups.length; i++) {
+            var group = digitGroups[i];
+            if (group === 0) continue;
+
+            var groupWords = [];
+            var hundreds = Math.floor(group / 100);
+            var remainder = group % 100;
+
+            if (hundreds > 0) {
+                groupWords.push(once[hundreds] + " Hundred");
+                if (remainder > 0) groupWords.push("and");
+            }
+
+            if (remainder >= 10 && remainder <= 19) {
+                groupWords.push(twos[remainder - 10]);
+            } else if (remainder >= 20) {
+                var tensPlace = Math.floor(remainder / 10);
+                var onesPlace = remainder % 10;
+                groupWords.push(tens[tensPlace]);
+                if (onesPlace > 0) groupWords.push(once[onesPlace]);
+            } else if (remainder > 0) {
+                groupWords.push(once[remainder]);
+            }
+
+            if (suffixes[i]) groupWords.push(suffixes[i]);
+
+            words.unshift(groupWords.join(" "));
+        }
+
+        return words.join(", ");
+    }
+
+    // Convert whole number part
+    var wholePartWords = convertToWords(wholePart);
+
+    // Convert decimal part if present
+    var decimalWords = "";
+    if (decimalPart !== "00") {
+        var decimalDigits = decimalPart.split("").map(Number);
+        decimalWords = "and " + decimalDigits.map(d => once[d]).join(" ") + " Paise";
+    }
+
+    // Final result
+    var finalOutput = wholePartWords + (decimalWords ? " " + decimalWords : "") + " Only";
+    document.getElementById(outputControl).innerHTML = finalOutput;
+}
+
