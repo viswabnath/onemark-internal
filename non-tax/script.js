@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-
+    validateFieldsAndTable ();
+    
     // Function to show error messages
     function showError(element, message) {
         const existingError = element.nextElementSibling;
@@ -190,31 +191,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update calculations
     function updateCalculations() {
         const rows = document.querySelectorAll('tbody tr');
-        let totalExclTax = 0, totalGST = 0;
+        let grandTotal = 0;
 
         rows.forEach(row => {
             const qty = parseFloat(row.querySelector('.qty').textContent) || 0;
             const unitPrice = parseFloat(row.querySelector('.unit-price').textContent) || 0;
-            const gst = parseFloat(row.querySelector('.gst').textContent) || 0;
 
-            const exclTax = qty * unitPrice;
-            const gstAmount = exclTax * (gst / 100);
-            const total = exclTax + gstAmount;
 
-            row.querySelector('.line-total').textContent = total.toFixed(2);
-            totalExclTax += exclTax;
-            totalGST += gstAmount;
+            const lineTotal = qty * unitPrice;
+            grandTotal += lineTotal
+
+            // Update the line total in the row
+            const lineTotalCell = row.querySelector('.line-total');
+            if (lineTotalCell) {
+                lineTotalCell.textContent = lineTotal.toFixed(2); // Format to 2 decimals
+            }
         });
+        document.getElementById('grand-total').textContent = grandTotal.toFixed(2);
 
-        document.getElementById('total-excl-tax').textContent = totalExclTax.toFixed(2);
-        document.getElementById('total-gst').textContent = totalGST.toFixed(2);
-        document.getElementById('total-cgst').textContent = (totalGST / 2).toFixed(2);
-        document.getElementById('total-sgst').textContent = (totalGST / 2).toFixed(2);
-        document.getElementById('grand-total').textContent = (totalExclTax + totalGST).toFixed(2);
-
-        const gtotal = document.getElementById('grand-total').textContent;
         // Call the NumToWord function to display the total in words
-        NumToWord(gtotal, 'total-in-words');
+        NumToWord(grandTotal, 'total-in-words');
     }
 
 
@@ -239,7 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <td contenteditable="true" class="hsn-code">998361</td>
             <td contenteditable="true" class="qty">01</td>
             <td contenteditable="true" class="unit-price">0</td>
-            <td class="gst">18</td>
             <td class="line-total">0.00</td>
         `;
         tableBody.appendChild(newRow);
