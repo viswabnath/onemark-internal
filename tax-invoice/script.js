@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Validate Client Name
         const clientName = clientNameElement.textContent.trim();
-        if (!/^[a-zA-Z\s]+$/.test(clientName) || clientName.length === 0) {
+        if (!/^[a-zA-Z\s\/&]+$/.test(clientName) || clientName.length === 0) {
             showError(clientNameElement, 'Client name must only contain letters and spaces.');
             isValid = false;
         } else {
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Validate Address
         const address = addressElement.textContent.trim();
-        if (!/^[a-zA-Z0-9\s\/\-#&,]+$/.test(address) || address.length === 0) {
+        if (!/^[a-zA-Z0-9\s\/\-#&,.]+$/.test(address) || address.length === 0) {
             showError(addressElement, 'Address must only contain valid characters.');
             isValid = false;
         } else {
