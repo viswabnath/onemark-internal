@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payslip - Onemark</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        h6 {
+            margin-top: 5px;
+        }
+
+        /* General styling for the labels */
+        .form-label {
+            font-family: 'Roboto', sans-serif;
+            /* Clean and modern font */
+            font-size: 14px;
+            color: #858282;
+            /* Neutral dark gray color for text */
+            font-weight: 500;
+            display: block;
+            text-transform: capitalize;
+        }
+
+        /* Styling for input fields */
+        .form {
+            width: 100%;
+            padding: 10px 12px;
+            font-family: 'Roboto', sans-serif;
+            /* Same font as labels for consistency */
+            font-size: 14px;
+            color: #333;
+            /* Slightly darker gray for input text */
+            border: 1px solid #ccc;
+            /* Subtle border */
+            border-radius: 6px;
+            /* Rounded corners */
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+            /* Soft inner shadow */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Input field focus effect */
+        .form:focus {
+            border-color: #007bff;
+            /* Blue border on focus */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            /* Subtle glow effect */
+            outline: none;
+        }
+
+        /* Styling for the row and columns */
+        .dropdown-row {
+            display: flex;
+            gap: 20px;
+            /* Space between columns */
+            margin-bottom: 5px;
+            /* Space below the row */
+        }
+
+        .dropdown-row .col-md-3 {
+            flex: 1;
+            /* Equal width for all columns */
+        }
+
+        /* Line styling */
+        .line {
+            border-top: 1px solid #ddd;
+            /* Subtle divider */
+            margin: 5px 0;
+        }
+
+        .salary {
+            margin-top: 1rem
+        }
+
+        .salary-details {
+            margin-top: 10px;
+        }
+
+        .salary-details h4 {
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .salary-details .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        .salary-details th,
+        .salary-details td {
+            /* border: 1px solid #000; */
+            padding: 10px;
+            text-align: left;
+        }
+
+        .salary-details th {
+            background-color: #f5f5f5;
+        }
+
+        .net-salary {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border: 1px solid #000;
+            margin-bottom: 10px;
+        }
+
+        .net-salary p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .note {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .note p {
+            margin: 5px 0;
+        }
+
+        .note strong {
+            font-weight: bold;
+        }
+
+        .note em {
+            font-style: italic;
+        }
+
+        /* Print-specific styles */
+        @media print {
+            .header {
+                flex-direction: row;
+                /* Stack elements in print */
+                justify-content: flex-start;
+                font-size: 14px;
+                /* Reduce font size for print */
+            }
+
+            .header h2 {
+                font-size: 18px;
+            }
+
+            .header input[type="text"] {
+                font-size: 16px;
+                width: 120px;
+                /* Adjust input field width for print */
+            }
+
+            /* Hide the logo in print */
+            .header img {
+                display: none;
+            }
+
+            .address {
+                font-size: 14px;
+                /* Adjust address font size for print */
+            }
+
+            .hide-in-pdf {
+                display: none !important;
+            }
+
+            .form-control,
+            .form {
+                border: none !important;
+                background: none !important;
+                color: inherit !important;
+                box-shadow: none !important;
+                /* Remove any shadow */
+                outline: none !important;
+                /* Ensure no outlines */
+            }
+
+            /* Optionally remove padding or margins to further control layout */
+            .form-control {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="invoice-wrapper" style="padding: 10px;">
+        <div class="container">
+            <!-- Header Section -->
+            <div class="header"
+                style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ccc; padding: 5px;">
+                <div class="address" style="flex: 1; text-align: left;">
+                    <h2 style="margin: 0; font-size: 24px;">
+                        <strong>PAYSLIP</strong>
+                        <span id="payslipMonthYear" style="font-size: 22px; font-weight: normal;">MONTH AND YEAR</span>
+                    </h2>
+                    <div
+                        style="margin-top: 10px; text-transform: uppercase; font-size: 14px; font-family: Arial, sans-serif;">
+                        <strong>ONEMARK</strong>
+                        <br>
+                        FF2, Second Floor, Manasa Park View,
+                        <br>
+                        Near Gandhi Nagar Park,
+                        <br>
+                        Kakinada, Andhra Pradesh 533003
+                    </div>
+                </div>
+                <div>
+                    <img src="../Logo.png" alt="Onemark Logo" style="max-width: 200px; height: auto;">
+                </div>
+            </div>
+
+
+            <!-- Dynamic Fields -->
+            <div class="col-md-4">
+                <h6 id="name"></h6>
+            </div>
+            <div class="line"></div>
+            <div class="row dropdown-row">
+                <div class="col-md-3">
+                    <label class="form-label">Employee Number</label>
+                    <span class="value" id="employeeNumber"></span>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Date of Birth</label>
+                    <span class="value" id="dob"></span>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Date Joined</label>
+                    <span class="value" id="dateJoined"></span>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Department</label>
+                    <span class="value" id="department"></span>
+                </div>
+            </div>
+            <div class="line"></div>
+
+            <div class="row dropdown-row">
+                <div class="col-md-3">
+                    <label class="form-label">Pay Cycle Dates</label>
+                    <span class="value" id="payCycleDates"></span>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">PAN</label>
+                    <span class="value" id="pan"></span>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Designation</label>
+                    <span class="value" id="designation"></span>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Payment Mode</label>
+                    <span class="value" id="paymentMode">Bank Transfer</span>
+                </div>
+            </div>
+            <div class="line"></div>
+            <div class="row dropdown-row">
+                <div class="col-md-3">
+                    <label class="form-label">Bank</label>
+                    <span class="value" id="bank"></span>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Bank IFSC</label>
+                    <span class="value" id="ifsc"></span>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Bank Account</label>
+                    <span class="value" id="bankAccount"></span>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Aadhar Number</label>
+                    <span class="value" id="aadhar"></span>
+                </div>
+            </div>
+            <div class="line"></div>
+
+            <!-- Salary Details -->
+            <div class="salary">
+                <h6>SALARY DETAILS</h6>
+            </div>
+
+
+            <div class="salary-details">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Earnings</th>
+                            <th></th>
+                            <th>Deductions</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Basic</td>
+                            <td><input type="number" id="basic" class="form-control" value="0"
+                                    oninput="calculateSalary()">
+                            </td>
+                            <td>Income Tax</td>
+                            <td><input type="number" id="incomeTax" class="form-control" value="0"
+                                    oninput="calculateSalary()"></td>
+                        </tr>
+                        <tr>
+                            <td>HRA</td>
+                            <td><input type="number" id="hra" class="form-control" value="0"
+                                    oninput="calculateSalary()">
+                            </td>
+                            <td>Penalty</td>
+                            <td><input type="number" id="penalty" class="form-control" value="0"
+                                    oninput="calculateSalary()"></td>
+                        </tr>
+                        <tr>
+                            <td>Other Allowance</td>
+                            <td><input type="number" id="otherAllowance" class="form-control" value="0"
+                                    oninput="calculateSalary()"></td>
+                            <td>Advance Salary</td>
+                            <td><input type="number" id="advanceSalary" class="form-control" value="0"
+                                    oninput="calculateSalary()"></td>
+                        </tr>
+                        <tr>
+                            <td>Special Allowance</td>
+                            <td><input type="number" id="specialAllowance" class="form-control" value="0"
+                                    oninput="calculateSalary()"></td>
+                            <td>Personal Loan</td>
+                            <td><input type="number" id="personalLoan" class="form-control" value="0"
+                                    oninput="calculateSalary()"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total Earnings</strong></td>
+                            <td><strong id="totalEarnings">0</strong></td>
+                            <td><strong>Total Deductions</strong></td>
+                            <td><strong id="totalDeductions">0</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="net-salary row">
+                    <!-- Labels -->
+                    <div class="col-md-4">
+                        <p><strong>Net Salary Payable</strong></p>
+                        <p><strong>Net Salary in Words</strong></p>
+                    </div>
+
+                    <!-- Values -->
+                    <div class="col-md-8">
+                        <p><span id="netSalary"> - </span></p>
+                        <p><span id="netSalaryWords"> - </span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row dropdown-row">
+                <div class="col-md-3">
+                    <label for="actualpaydays" class="form-label">Actual Payable Days</label>
+                    <input type="text" class="form" id="actualpaydays">
+                </div>
+                <div class="col-md-3">
+                    <label for="totalworkingdays" class="form-label">Total Working Days</label>
+                    <input type="text" class="form" id="totalworkingdays">
+                </div>
+                <div class="col-md-3">
+                    <label for="lossofpaydays" class="form-label">Loss Of Pay Days</label>
+                    <input type="text" class="form" id="lossofpaydays">
+                </div>
+                <div class="col-md-3">
+                    <label for="daypayable" class="form-label">Days Payable</label>
+                    <input type="text" class="form" id="daypayable">
+                </div>
+            </div>
+
+            <div class="note">
+                <p>** Note: All amounts displayed in this payslip are in <strong>INR</strong></p>
+                <p><em>*This is an electronically generated statement, does not require a signature.</em></p>
+            </div>
+
+            <div class="line"></div>
+
+
+
+
+            <!-- Export Button -->
+            <button id="exportBtn" class="btn btn-primary mt-4 hide-in-pdf" disabled>Export to PDF</button>
+            <button id="backBtn" class="btn btn-secondary mt-4 hide-in-pdf"
+                onclick="window.location.href='index.html'">Back</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script>
+        // Attach the checkFields function to input changes
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', checkFields);
+        });
+        const selectedEmployee = JSON.parse(localStorage.getItem('selectedEmployee'));
+
+        if (!selectedEmployee) {
+            alert('No employee data found. Redirecting...');
+            window.location.href = 'index.html'; // Redirect back to selection page
+        }
+
+
+        // Populate the payslip details
+        document.getElementById('payslipMonthYear').textContent =
+            ` ${selectedEmployee.month} ${selectedEmployee.year}`;
+        document.getElementById('name').textContent = selectedEmployee.name
+        document.getElementById('employeeNumber').textContent = selectedEmployee.employeeNumber;
+        document.getElementById('dob').textContent = selectedEmployee.dob;
+        document.getElementById('dateJoined').textContent = selectedEmployee.dateJoined;
+        document.getElementById('department').textContent = selectedEmployee.department;
+        document.getElementById('designation').textContent = selectedEmployee.designation;
+        document.getElementById('bank').textContent = selectedEmployee.bank;
+        document.getElementById('ifsc').textContent = selectedEmployee.ifsc;
+        document.getElementById('bankAccount').textContent = selectedEmployee.bankAccount;
+        document.getElementById('pan').textContent = selectedEmployee.pan;
+        document.getElementById('aadhar').textContent = selectedEmployee.aadhar;
+        document.getElementById('payCycleDates').textContent = selectedEmployee.paycycle
+
+
+        function checkFields() {
+            const fields = [
+                document.getElementById('basic'),
+                document.getElementById('hra'),
+                document.getElementById('otherAllowance'),
+                document.getElementById('specialAllowance'),
+                document.getElementById('actualpaydays'),
+                document.getElementById('totalworkingdays'),
+                document.getElementById('daypayable')
+            ];
+
+            // Check if all fields have values
+            const allFilledAndValid = fields.every(field => {
+                const value = parseFloat(field.value.trim());
+                return field.value.trim() !== "" && value >= 28;
+            });
+            // Enable/Disable Export PDF button based on the fields' validation
+            document.getElementById('exportBtn').disabled = !allFilledAndValid;
+
+        }
+        // Function to Convert Numbers to Words
+        function NumToWord(inputNumber, outputControl) {
+            var str = inputNumber.toString();
+            var splitNumber = str.split(".");
+            var wholePart = parseInt(splitNumber[0], 10); // Integer part
+            var decimalPart = splitNumber[1] || "00";    // Decimal part defaults to "00"
+
+            var once = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+            var twos = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+            var tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+            var suffixes = ['', 'Thousand', 'Lakh', 'Crore'];
+
+            function convertToWords(num) {
+                if (num === 0) return "Zero";
+
+                var words = [];
+                var digitGroups = [];
+                var suffixIndex = 0;
+
+                // Split the number into groups as per Indian numbering system
+                while (num > 0) {
+                    if (suffixIndex === 1) {
+                        // Group of 2 digits for Thousand
+                        digitGroups.push(num % 100);
+                        num = Math.floor(num / 100);
+                    } else {
+                        // Groups of 3 digits for higher denominations
+                        digitGroups.push(num % 1000);
+                        num = Math.floor(num / 1000);
+                    }
+                    suffixIndex++;
+                }
+
+                // Convert each group to words
+                for (var i = 0; i < digitGroups.length; i++) {
+                    var group = digitGroups[i];
+                    if (group === 0) continue;
+
+                    var groupWords = [];
+                    var hundreds = Math.floor(group / 100);
+                    var remainder = group % 100;
+
+                    if (hundreds > 0) {
+                        groupWords.push(once[hundreds] + " Hundred");
+                        if (remainder > 0) groupWords.push("and");
+                    }
+
+                    if (remainder >= 10 && remainder <= 19) {
+                        groupWords.push(twos[remainder - 10]);
+                    } else if (remainder >= 20) {
+                        var tensPlace = Math.floor(remainder / 10);
+                        var onesPlace = remainder % 10;
+                        groupWords.push(tens[tensPlace]);
+                        if (onesPlace > 0) groupWords.push(once[onesPlace]);
+                    } else if (remainder > 0) {
+                        groupWords.push(once[remainder]);
+                    }
+
+                    if (suffixes[i]) groupWords.push(suffixes[i]);
+
+                    words.unshift(groupWords.join(" "));
+                }
+
+                return words.join(", ");
+            }
+
+            // Convert whole number part
+            var wholePartWords = convertToWords(wholePart);
+
+            // Convert decimal part if present
+            var decimalWords = "";
+            if (decimalPart !== "00") {
+                var decimalDigits = decimalPart.split("").map(Number);
+                decimalWords = "and " + decimalDigits.map(d => once[d]).join(" ") + " Paise";
+            }
+
+            // Final result
+            var finalOutput = wholePartWords + (decimalWords ? " " + decimalWords : "") + " Only";
+            document.getElementById(outputControl).innerHTML = finalOutput;
+        }
+
+        // Calculate salary details and update values
+        function calculateSalary() {
+            const basic = parseFloat(document.getElementById('basic').value) || 0;
+            const hra = parseFloat(document.getElementById('hra').value) || 0;
+            const otherAllowance = parseFloat(document.getElementById('otherAllowance').value) || 0;
+            const specialAllowance = parseFloat(document.getElementById('specialAllowance').value) || 0;
+
+            const incomeTax = parseFloat(document.getElementById('incomeTax').value) || 0;
+            const penalty = parseFloat(document.getElementById('penalty').value) || 0;
+            const advanceSalary = parseFloat(document.getElementById('advanceSalary').value) || 0;
+            const personalLoan = parseFloat(document.getElementById('personalLoan').value) || 0;
+
+            const totalEarnings = basic + hra + otherAllowance + specialAllowance;
+            const totalDeductions = incomeTax + penalty + advanceSalary + personalLoan;
+
+            const netSalary = totalEarnings - totalDeductions;
+
+            document.getElementById('totalEarnings').innerText = totalEarnings.toFixed(2);
+            document.getElementById('totalDeductions').innerText = totalDeductions.toFixed(2);
+            document.getElementById('netSalary').innerText = netSalary.toFixed(2);
+
+            // Call the NumToWord function to convert net salary to words
+            NumToWord(netSalary, 'netSalaryWords');
+        }
+
+        // Export to PDF
+        document.getElementById('exportBtn', 'backBtn').addEventListener('click', () => {
+            document.querySelectorAll('.hide-in-pdf').forEach(button => {
+                button.style.display = 'none';
+            });
+
+            const fileName = prompt("Enter a name for the PDF file:", (selectedEmployee.name + ' ' + selectedEmployee.month + ' ' + 'Payslip' + ' ' + selectedEmployee.year).toUpperCase());
+
+
+            if (fileName) {
+                const invoiceWrapper = document.getElementById('invoice-wrapper');
+                invoiceWrapper.classList.add('pdf-export');
+
+                html2pdf()
+                    .set({
+                        margin: 10,
+                        filename: `${fileName}.pdf`,
+                        html2canvas: { scale: 2, useCORS: true },
+                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+                    })
+                    .from(invoiceWrapper)
+                    .toPdf()
+                    .get('pdf')
+                    .then(pdf => {
+                        const pageCount = pdf.internal.getNumberOfPages();
+                        for (let i = 1; i <= pageCount; i++) {
+                            pdf.setPage(i);
+                            pdf.setDrawColor(0, 0, 0);
+                            pdf.rect(10, 10, pdf.internal.pageSize.width - 20, pdf.internal.pageSize.height - 20);
+                        }
+                    })
+                    .save()
+                    .finally(() => {
+                        invoiceWrapper.classList.remove('pdf-export');
+                    });
+            }
+
+            setTimeout(() => {
+                document.querySelectorAll('.hide-in-pdf').forEach(button => {
+                    button.style.display = 'inline-block';
+                });
+            }, 1000);
+        });
+
+
+
+    </script>
+</body>
+
+</html>
