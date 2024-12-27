@@ -14,12 +14,16 @@
         function redirectToInvoice() {
             window.location.href = "../non-tax/index.html";
         }
+        function redirectHome() {
+            window.location.href = "../index.html";
+        }
     </script>
 </head>
 
 <body>
     <div id="invoice-wrapper" style="padding: 10px;">
         <div class="container" id="invoice">
+            <button class="top-left-button" onclick="redirectHome()">Home</button>
             <button class="top-right-button" onclick="redirectToInvoice()">For Non Tax Invoice</button>
 
             <div class="header">

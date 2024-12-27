@@ -49,11 +49,27 @@
         .monthSelect {
             text-transform: uppercase;
         }
+
+        .top-left-button {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: #009dff;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
+        <button class="top-left-button" onclick="redirectBack()">Back</button>
         <form id="payslipForm">
             <div class="mb-3">
                 <label class="form-label">Select Employee</label>
@@ -102,6 +118,10 @@
     </div>
 
     <script>
+
+        function redirectBack() {
+            window.location.href = "../index.html";
+        }
         // Update Pay Cycle Dates
         document.getElementById('monthSelect').addEventListener('change', updatePayCycleDates);
         document.getElementById('yearSelect').addEventListener('change', updatePayCycleDates);

@@ -203,6 +203,20 @@ body {
     font-size: 10px;
     cursor: pointer;
 }
+.top-left-button {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: #009dff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    cursor: pointer;
+}
 
 input,
 span[contenteditable="true"] {
