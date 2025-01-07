@@ -33,6 +33,7 @@ body {
 .table td {
     text-align: center;
     vertical-align: middle;
+    font-size: 16px; /* Consistent table font size */
 }
 
 .totals {
@@ -41,6 +42,7 @@ body {
 
 .totals p {
     margin: 5px 0;
+    font-size: 16px; /* Consistent font size */
 }
 
 .line {
@@ -54,9 +56,7 @@ body {
 
 .bank-details p {
     margin-bottom: 5px;
-    /* Adjust spacing between paragraphs */
     font-size: 15px;
-    /* Adjust font size as needed */
 }
 
 .bank-details p strong {
@@ -86,15 +86,11 @@ body {
 
 .company-details p {
     margin-bottom: 5px;
-    /* Adjust spacing between paragraphs */
     font-size: 12px;
-    /* Adjust font size as needed */
 }
 
 .company-details p:first-child {
-    /* For the first address paragraph */
     font-weight: bold;
-    /* Make address bold */
 }
 
 .details {
@@ -118,12 +114,13 @@ body {
 }
 
 .field span,
-.field input {
+.field input,
+.field select {
     display: block;
     width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
-    font-size: 14px;
+    font-size: 16px; /* Consistent font size for input fields */
 }
 
 .client-address {
@@ -131,7 +128,6 @@ body {
     overflow-wrap: break-word;
     white-space: pre-wrap;
     min-height: 50px;
-    /* Adjustable based on needs */
 }
 
 .note {
@@ -144,56 +140,37 @@ body {
     margin: 0px;
 }
 
-@media print {
-    .hide-in-pdf {
-        display: none !important;
-    }
-
-    #invoice-wrapper {
-        page-break-inside: avoid;
-    }
-
-    .page-break {
-        page-break-before: always;
-    }
-
-    .field span,
-    .field input {
-        display: none;
-    }
-
+/* New Client Select Styles */
+.client-select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+    margin-bottom: 5px;
 }
 
-.pdf-export {
-    font-size: 12px !important;
-    /* Reduce font size */
-    line-height: 1.2 !important;
-    /* Adjust line spacing */
-    padding: 10px;
-    /* Add padding for better readability */
+/* Error Message Styles */
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 2px;
+    display: block;
 }
 
-.pdf-export .field {
-    margin-bottom: 10px !important;
-    /* Reduce gaps */
+.table-error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
 }
 
-.pdf-export .field span,
-.pdf-export .field input {
-    padding: 5px !important;
-    /* Adjust input padding */
-}
-
-.pdf-export .totals p {
-    margin: 3px 0 !important;
-    /* Reduce spacing between totals */
-}
-
+/* Navigation Button Styles */
 .top-right-button {
     position: fixed;
     top: 10px;
     right: 10px;
-    background-color: #007bff;
+    background-color: #4CAF50;
     border: none;
     color: white;
     padding: 10px 20px;
@@ -203,6 +180,7 @@ body {
     font-size: 10px;
     cursor: pointer;
 }
+
 .top-left-button {
     position: fixed;
     top: 10px;
@@ -218,9 +196,12 @@ body {
     cursor: pointer;
 }
 
+/* Text Transform Styles */
 input,
-span[contenteditable="true"] {
+span[contenteditable="true"],
+select {
     text-transform: uppercase;
+    font-size: 16px; /* Consistent font size for input fields */
 }
 
 [contenteditable="true"] {
@@ -228,4 +209,51 @@ span[contenteditable="true"] {
     font-size: 16px;
     color: #000;
     white-space: pre-wrap;
+}
+
+/* Print Styles */
+@media print {
+    .hide-in-pdf {
+        display: none !important;
+    }
+
+    #invoice-wrapper {
+        page-break-inside: avoid;
+    }
+
+    .page-break {
+        page-break-before: always;
+    }
+
+    .table th,
+    .table td {
+        font-size: 16px; /* Ensure consistent font size in print */
+    }
+}
+
+/* PDF Export Styles */
+.pdf-export {
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    padding: 10px;
+}
+
+.pdf-export .field {
+    margin-bottom: 10px !important;
+}
+
+.pdf-export .field span,
+.pdf-export .field input,
+.pdf-export .field select {
+    padding: 5px !important;
+    font-size: 16px !important; /* Match input field font size in export */
+}
+
+.pdf-export .totals p {
+    margin: 3px 0 !important;
+}
+
+.pdf-export .table th,
+.pdf-export .table td {
+    font-size: 16px !important; /* Match table font size in export */
 }

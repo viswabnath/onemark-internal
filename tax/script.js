@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     validateFieldsAndTable ();
 
+      // Set current date
+      const dateInput = document.querySelector('[type="date"]');
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.value = today;
+
     // Function to show error messages
     function showError(element, message) {
         const existingError = element.nextElementSibling;
